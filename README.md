@@ -17,7 +17,7 @@ Program supports features:
   - Contrast Limited Histogram Equalization
   - Contrast Limited Adaptive Histogram Equalization
    
-Tutorial:
+How to use:
   - Load image (double left click on image to load)
   - Select algorithm
   - Save image (right click on processed image to save)
