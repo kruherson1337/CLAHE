@@ -30,7 +30,16 @@ How to use
   
 Examples
 -----
-
+Original
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_original.png?raw=true" alt="Original"/>
+Histogram Equalization
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_HE.png?raw=true" alt="Original"/>
+Adaptive Histogram Equalization
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_AHE.png?raw=true" alt="Original"/>
+Contrast Limited Histogram Equalization
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLHE.png?raw=true" alt="Original"/>
+Contrast Limited Adaptive Histogram Equalization
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLAHE.png?raw=true" alt="Original"/>
 
 References
 -----
