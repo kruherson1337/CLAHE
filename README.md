@@ -30,7 +30,8 @@ How to use
   
 Examples
 -----
-
+Original
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_original.png?raw=true" alt="Original"/>
 
 References
 -----
