@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="CLAHE" Height="818.5" Width="1638.5" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Grid>
-        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" Stretch="Fill" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
+        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
         <StackPanel Orientation="Horizontal" x:Name="histogramStack" HorizontalAlignment="Left" Height="256" Margin="768,256,0,0" VerticalAlignment="Top" Width="768"/>
         <StackPanel Orientation="Horizontal" x:Name="channelStack" HorizontalAlignment="Left" Height="256" Margin="768,0,0,0" VerticalAlignment="Top" Width="768"/>
         <StackPanel Orientation="Horizontal" x:Name="stackComulativeFrequency" HorizontalAlignment="Left" Height="256" Margin="768,512,0,-142" VerticalAlignment="Top" Width="768"/>
