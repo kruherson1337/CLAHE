@@ -23,59 +23,7 @@ namespace Vaja1_CLAHE
             string defaultImagePath = System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\..\\..\\Resources\\Pic3.jpg";
             processImage(defaultImagePath, Algorithm.LOAD_IMAGE);
         }
-        /*
-        private void processImage(string filename, Algorithm algorithm)
-        {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            labelTimeTaken.Content = "";
 
-            // save filename 
-            originalFilename = filename;
-
-            // Load image
-            using (Bitmap image = new Bitmap(filename))
-            {
-                Console.WriteLine("Filename: " + filename);
-                Console.WriteLine("Width: " + image.Width);
-                labelTimeTaken.Content += "Width: " + image.Width;
-                Console.WriteLine("Height: " + image.Height);
-                labelTimeTaken.Content += " Height: " + image.Height;
-
-                // Convert to MyImage
-                MyImage myImage = new MyImage(image);
-
-                // Calculate each channel separated
-                Bitmap[] histograms = new Bitmap[myImage.NumCh];
-                Bitmap[] comulativeFrequencies = new Bitmap[myImage.NumCh];
-                Bitmap[] channelImages = new Bitmap[myImage.NumCh];
-
-                int AHEWindowSize = int.Parse(textboxAHEWindowSize.Text);
-                MyBitplane bitplane = myImage.Bitplane[0];
-                ImageProcessing.processImage(ref bitplane, algorithm, AHEWindowSize);
-
-                // Calculate Histogram
-                double[] histogram = ImageProcessing.calculateHistogram(bitplane);
-
-                // Get images
-                channelImages[0] = ImageRendering.getChannelImage(bitplane, (int)0, myImage.NumCh);
-                histograms[0] = ImageRendering.drawHistogram(histogram);
-                comulativeFrequencies[0] = ImageRendering.drawComulativeFrequency(ImageProcessing.calculateComulativeFrequency(histogram));
-
-                myImage.Bitplane[0] = bitplane;
-
-                // Draw histogram and image for each channel
-                DrawOnScreen(1, histograms, comulativeFrequencies, channelImages);
-
-                // Draw image on screen
-                imageOriginal.Source = Utils.getSource(myImage.GetBitmap());
-            }
-
-            watch.Stop();
-            string timeTaken = String.Format(" {0} {1} ms", algorithm.ToString(), watch.ElapsedMilliseconds.ToString());
-            Console.WriteLine(timeTaken);
-            labelTimeTaken.Content += timeTaken;
-        }
-        */
         private void processImage(string filename, Algorithm algorithm)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -104,8 +52,10 @@ namespace Vaja1_CLAHE
                 int windowSize = int.Parse(textboxAHEWindowSize.Text);
                 double clipLimit = Double.Parse(textboxClipLimit.Text);
 
+                // Do paralel image process on each channel 
                 Parallel.ForEach(myImage.Bitplane, (bitplane, state, ch) =>
                 {
+                    // Process current channel
                     ImageProcessing.processImage(ref bitplane, algorithm, windowSize, clipLimit);
 
                     // Calculate Histogram
@@ -130,6 +80,9 @@ namespace Vaja1_CLAHE
             labelTimeTaken.Content += timeTaken;
         }
         
+        /// <summary>
+        /// Draw histogram, comulative frequencies and channel images on screen
+        /// </summary>
         private void DrawOnScreen(int numCh, Bitmap[] histograms, Bitmap[] comulativeFrequencies, Bitmap[] channelImages)
         {
             channelStack.Children.Clear();
@@ -149,6 +102,9 @@ namespace Vaja1_CLAHE
             }
         }
 
+        /// <summary>
+        /// Save current displayed image
+        /// </summary>
         private void saveCurrentImage()
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -161,6 +117,9 @@ namespace Vaja1_CLAHE
             }
         }
 
+        /// <summary>
+        /// Load image from file
+        /// </summary>
         private void loadImage()
         {
             OpenFileDialog dialog = new OpenFileDialog
@@ -176,6 +135,7 @@ namespace Vaja1_CLAHE
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // Double click
             if (e.ClickCount == 2)
                 loadImage();
         }

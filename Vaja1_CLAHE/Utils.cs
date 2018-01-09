@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,6 +9,11 @@ namespace Vaja1_CLAHE
 {
     public class Utils
     {
+        /// <summary>
+        /// Get bitmap from Image view control
+        /// </summary>
+        /// <param name="control">Image view control</param>
+        /// <returns>Bitmap</returns>
         public static Bitmap ImageSourceToBytes(System.Windows.Controls.Image control)
         {
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)control.ActualWidth, (int)control.ActualHeight, 96, 96, PixelFormats.Pbgra32);
@@ -26,6 +25,12 @@ namespace Vaja1_CLAHE
             Image image = Image.FromStream(stream);
             return new Bitmap(image);
         }
+
+        /// <summary>
+        /// Get bitmapSource from bitmap
+        /// </summary>
+        /// <param name="bmp">bitmap</param>
+        /// <returns>bitmapSource</returns>
         public static BitmapSource getSource(Bitmap bmp)
         {
             return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
@@ -37,6 +42,14 @@ namespace Vaja1_CLAHE
                     bmp.Height
                     ));
         }
+
+        /// <summary>
+        /// Create image view from bitmap
+        /// </summary>
+        /// <param name="bmp">bitmap to be displayed</param>
+        /// <param name="width">width of image view</param>
+        /// <param name="height">height of image view</param>
+        /// <returns>Image view control</returns>
         public static System.Windows.Controls.Image GetImageView(Bitmap bmp, double width, double height)
         {
             return new System.Windows.Controls.Image
@@ -47,6 +60,10 @@ namespace Vaja1_CLAHE
                 Stretch = Stretch.Fill
             };
         }
+
+        /// <summary>
+        /// Find max value in array
+        /// </summary>
         public static double findMax(double[] array)
         {
             double max = double.MinValue;
@@ -55,6 +72,10 @@ namespace Vaja1_CLAHE
                     max = value;
             return max;
         }
+
+        /// <summary>
+        /// Find min value in array
+        /// </summary>
         public static double findMin(double[] array)
         {
             double min = double.MaxValue;

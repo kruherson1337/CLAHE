@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Vaja1_CLAHE
+﻿namespace Vaja1_CLAHE
 {
     public class MyBitplane
     {
@@ -20,7 +14,7 @@ namespace Vaja1_CLAHE
 
             for (int y = 0; y < this.Height; ++y)
                 for (int x = 0; x < this.Width; ++x)
-                    SetPixel(x, y, bitplane.GetPixel(x,y));
+                    SetPixel(x, y, bitplane.GetPixel(x, y));
         }
 
         public MyBitplane(int w, int h)

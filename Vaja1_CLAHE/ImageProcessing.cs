@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Vaja1_CLAHE
 {
     public class ImageProcessing
     {
-        public static void processImage(ref MyBitplane bitplane, Algorithm algorithm, int AHEWindowSize, double clipLimit)
+        /// <summary>
+        /// Image process manager
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <param name="algorithm">Selected algorithm</param>
+        /// <param name="windowSize">Size of window</param>
+        /// <param name="contrastLimit">Contrast Limit</param>
+        public static void processImage(ref MyBitplane bitplane, Algorithm algorithm, int windowSize, double contrastLimit)
         {
             switch (algorithm)
             {
@@ -18,23 +21,28 @@ namespace Vaja1_CLAHE
                     break;
                 case Algorithm.AHE:
                     // Adaptive Histogram Equalization
-                    AHE(ref bitplane, AHEWindowSize);
+                    AHE(ref bitplane, windowSize);
                     break;
                 case Algorithm.CLHE:
                     // Contrast Limited Histogram Equalization
-                    CLHE(ref bitplane, clipLimit);
+                    CLHE(ref bitplane, contrastLimit);
                     break;
                 case Algorithm.CLAHE:
                     // Contrast Limited Adaptive Histogram Equalization
-                    CLAHE(ref bitplane, AHEWindowSize, clipLimit);
+                    CLAHE(ref bitplane, windowSize, contrastLimit);
                     break;
 
                 case Algorithm.LOAD_IMAGE:
                 default:
+                    // Do nothing
                     break;
             }
         }
 
+        /// <summary>
+        /// Histogram Equalization
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
         private static void HE(ref MyBitplane bitplane)
         {
             // Histogram
@@ -62,6 +70,11 @@ namespace Vaja1_CLAHE
                     bitplane.SetPixel(x, y, (byte)floorProbability[bitplane.GetPixel(x, y)]);
         }
 
+        /// <summary>
+        /// Adaptive Histogram Equalization
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <param name="windowSize">size of window</param>
         private static void AHE(ref MyBitplane bitplane, int windowSize)
         {
             // Prepare data
@@ -91,9 +104,14 @@ namespace Vaja1_CLAHE
                     bitplane.SetPixel(x, y, newBitplane.GetPixel(x, y));
         }
 
-        private static void CL(ref MyBitplane bitplane, double clipLimit)
+        /// <summary>
+        /// Contrast Limited implementation
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <param name="contrastLimit">contrast limit</param>
+        private static void CL(ref MyBitplane bitplane, double contrastLimit)
         {
-            double cl = (clipLimit * (bitplane.Width * bitplane.Height)) / 256;
+            double cl = (contrastLimit * (bitplane.Width * bitplane.Height)) / 256;
             double top = cl;
             double bottom = 0;
             double SUM = 0;
@@ -138,22 +156,68 @@ namespace Vaja1_CLAHE
             int x;
             for (int y = 0; y < bitplane.Height; ++y)
                 for (x = 0; x < bitplane.Width; ++x)
-                    bitplane.SetPixel(x, y, (byte)finalFreq[bitplane.GetPixel(x,y)]);
+                    bitplane.SetPixel(x, y, (byte)finalFreq[bitplane.GetPixel(x, y)]);
 
         }
 
-        private static void CLHE(ref MyBitplane bitplane, double clipLimit)
+        /// <summary>
+        /// Contrast Limited Histogram Equalization implementation
+        /// </summary>
+        /// <param name="bitplane"></param>
+        /// <param name="contrastLimit"></param>
+        private static void CLHE(ref MyBitplane bitplane, double contrastLimit)
         {
-            CL(ref bitplane, clipLimit);
+            CL(ref bitplane, contrastLimit);
             HE(ref bitplane);
         }
 
-        private static void CLAHE(ref MyBitplane bitplane, int windowSize, double clipLimit)
+        /// <summary>
+        /// Contrast Limited Adaptive Histogram Equalization implementation
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <param name="windowSize">size of window</param>
+        /// <param name="contrastLimit">Contrast limit param</param>
+        private static void CLAHE(ref MyBitplane bitplane, int windowSize, double contrastLimit)
         {
-            CL(ref bitplane, clipLimit);
-            AHE(ref bitplane, windowSize);
+            // Prepare data
+            MyBitplane newBitplane = new MyBitplane(bitplane.Width, bitplane.Height);
+            MyBitplane window = new MyBitplane(windowSize, windowSize);
+
+            int x;
+            int y;
+            for (y = 0; y < bitplane.Height; ++y)
+            {
+                for (x = 0; x < bitplane.Width; ++x)
+                {
+                    // Create window
+                    CreateWindow(ref bitplane, windowSize, ref window, y, x);
+                    
+                    // Contrast Limit on window
+                    CL(ref window, contrastLimit);
+
+                    // Histogram equalization on window
+                    HE(ref window);
+
+                    // Replace pixel from windowHE
+                    newBitplane.SetPixel(x, y, window.GetPixel(windowSize / 2, windowSize / 2));
+                }
+            }
+
+            // Copy
+            for (y = 0; y < bitplane.Height; ++y)
+                for (x = 0; x < bitplane.Width; ++x)
+                    bitplane.SetPixel(x, y, newBitplane.GetPixel(x, y));
         }
 
+        /// <summary>
+        /// Create window on current bitplane
+        /// Edges are mirrored
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <param name="windowSize">size of window</param>
+        /// <param name="window">window reference filled from bitmap</param>
+        /// <param name="y">current y position on bitplane</param>
+        /// <param name="x">current x position on bitplane</param>
         private static void CreateWindow(ref MyBitplane bitplane, int windowSize, ref MyBitplane window, int y, int x)
         {
             int jIndex = 0;
@@ -182,6 +246,11 @@ namespace Vaja1_CLAHE
             }
         }
 
+        /// <summary>
+        /// Calculates histogram based on input bitplane
+        /// </summary>
+        /// <param name="bitplane">bitplane of current image</param>
+        /// <returns>double array histogram of input bitplane</returns>
         public static double[] calculateHistogram(MyBitplane bitplane)
         {
             double[] histogram = new double[256];
@@ -192,6 +261,11 @@ namespace Vaja1_CLAHE
             return histogram;
         }
 
+        /// <summary>
+        /// Calculate comulative frequency of input array
+        /// </summary>
+        /// <param name="array">double array of frequencies</param>
+        /// <returns>double array for comulative frequencies</returns>
         public static double[] calculateComulativeFrequency(double[] array)
         {
             int size = array.Length;
