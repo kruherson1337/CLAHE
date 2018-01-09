@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 
 namespace Vaja1_CLAHE
@@ -24,7 +20,8 @@ namespace Vaja1_CLAHE
             InitializeComponent();
 
             // Load default image
-            processImage(System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) +"\\Resources\\Pic1.jpg", Algorithm.LOAD_IMAGE);
+            string defaultImagePath = System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\..\\..\\Resources\\Pic3.jpg";
+            processImage(defaultImagePath, Algorithm.LOAD_IMAGE);
         }
         /*
         private void processImage(string filename, Algorithm algorithm)

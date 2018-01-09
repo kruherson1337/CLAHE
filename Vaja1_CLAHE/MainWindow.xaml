@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vaja1_CLAHE"
         mc:Ignorable="d"
-        Title="MainWindow" Height="818.5" Width="1672.5" WindowStartupLocation="CenterScreen">
+        Title="CLAHE" Height="818.5" Width="1672.5" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Grid>
         <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" Stretch="Fill" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
         <StackPanel Orientation="Horizontal" x:Name="histogramStack" HorizontalAlignment="Left" Height="256" Margin="768,256,0,0" VerticalAlignment="Top" Width="768"/>
@@ -16,7 +16,7 @@
         <Button x:Name="buttonAHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="100" Content="AHE" Margin="0,250,0,0" Click="buttonAHE_Click"></Button>
         <Button x:Name="buttonCLHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="100" Content="CLHE" Margin="0,370,0,0" Click="buttonCLHE_Click"></Button>
         <Button x:Name="buttonCLAHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Height="100" Content="CLAHE" Margin="0,500,0,0" Click="buttonCLAHE_Click"></Button>
-        <Label Content="Okno" HorizontalAlignment="Right" Margin="0,605,85,0" VerticalAlignment="Top"/>
+        <Label Content="Window" HorizontalAlignment="Right" Margin="0,605,85,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textboxAHEWindowSize" HorizontalAlignment="Right" Height="24" Margin="0,605,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="85" Text="64"/>
         <Label x:Name="labelTimeTaken" Content="" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom"/>
         <Label Content="ClipLmt" HorizontalAlignment="Right" Margin="0,634,85,0" VerticalAlignment="Top"/>
