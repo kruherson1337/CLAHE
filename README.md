@@ -15,7 +15,7 @@ Requirements
 
 Program supports features
 -----
-  - Loading multi channel images (1,3,4)
+  - Loading multi channel images
   - Processing each channel on seperated thread
   - Histogram Equalization
   - Adaptive Histogram Equalization
