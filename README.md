@@ -11,6 +11,7 @@ Requirements
 -----
   - Target framework: .NET Framework 4.6.1
   - C# WPF App
+  - Visual Studio 2017
 
 Program supports features
 -----
