@@ -1,6 +1,6 @@
 # CLAHE
 
-Contrast Limited Adaptive Histogram Equalization C# .NET - 2018
+Contrast Limited Adaptive Histogram Equalization C# .NET Framework - 2018
 
 Help
 -----
