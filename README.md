@@ -32,6 +32,8 @@ Examples
 -----
 Original
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_original.png?raw=true" alt="Original"/>
+Histogram Equalization
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_HE.png?raw=true" alt="Original"/>
 
 References
 -----
