@@ -28,6 +28,10 @@ How to use
   - Select algorithm
   - Save image (right click on processed image to save)
   
+Examples
+-----
+
+
 References
 -----
   - CLAHE article http://www.cs.unc.edu/Research/MIDAG/pubs/papers/Adaptive%20Histogram%20Equalization%20and%20Its%20Variations.pdf  
