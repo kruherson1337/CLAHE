@@ -1,7 +1,10 @@
 # CLAHE
+======
+
 Contrast Limited Adaptive Histogram Equalization C# .NET - 2018
 
-C# implementation of CLAHE algorithm.
+Help
+-----
 
 More on algorithm find here https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE
 
