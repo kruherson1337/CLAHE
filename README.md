@@ -5,7 +5,7 @@ Contrast Limited Adaptive Histogram Equalization C# .NET Framework - 2018
 Help
 -----
 
-More on algorithm find [CLAHE Article](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE)
+More on algorithm find in [CLAHE Article](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE)
 
 Requirements
 -----
