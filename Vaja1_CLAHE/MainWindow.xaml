@@ -4,22 +4,54 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Vaja1_CLAHE"
+        xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
         mc:Ignorable="d"
         Title="CLAHE" Height="818.5" Width="1638.5" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Grid>
+
+        <!--Processed image-->
         <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
-        <StackPanel Orientation="Horizontal" x:Name="histogramStack" HorizontalAlignment="Left" Height="256" Margin="768,256,0,0" VerticalAlignment="Top" Width="768"/>
+
+        <!--Processed image by channels-->
         <StackPanel Orientation="Horizontal" x:Name="channelStack" HorizontalAlignment="Left" Height="256" Margin="768,0,0,0" VerticalAlignment="Top" Width="768"/>
-        <StackPanel Orientation="Horizontal" x:Name="stackComulativeFrequency" HorizontalAlignment="Left" Height="256" Margin="768,512,0,-142" VerticalAlignment="Top" Width="768"/>
+
+
+        <!--Histograms-->
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="768,256,0,0">
+            <d3:BarGraph x:Name="histogramR" Stroke="Red" d3:Legend.IsVisible="False" StrokeThickness="1"/>
+        </d3:Chart>
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1024,256,0,0">
+            <d3:BarGraph x:Name="histogramG" Stroke="Green" d3:Legend.IsVisible="False" StrokeThickness="1"/>
+        </d3:Chart>
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1280,256,0,0">
+            <d3:BarGraph x:Name="histogramB" Stroke="Blue" d3:Legend.IsVisible="False" StrokeThickness="1"/>
+        </d3:Chart>
+
+        <!--Comulative histogram-->
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="768,512,0,0">
+            <d3:LineGraph x:Name="comulativeHistogramR" d3:Legend.IsVisible="False" Stroke="Red" StrokeThickness="1"/>
+        </d3:Chart>
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1024,512,0,0">
+            <d3:LineGraph x:Name="comulativeHistogramG" d3:Legend.IsVisible="False" Stroke="Green" StrokeThickness="1"/>
+        </d3:Chart>
+        <d3:Chart BottomTitle="Pixel" LeftTitle="Intensity" Width="256" Height="256" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1280,512,0,0">
+            <d3:LineGraph x:Name="comulativeHistogramB" d3:Legend.IsVisible="False" Stroke="Blue" StrokeThickness="1"/>
+        </d3:Chart>
+
+        <!--Buttons-->
         <Button x:Name="buttonReset" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="80" Height="50" Content="Reset" Margin="0,0,0,0" Click="buttonReset_Click"></Button>
         <Button x:Name="buttonHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="HE" Margin="0,55,0,0" Click="buttonHE_Click"></Button>
         <Button x:Name="buttonAHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="AHE" Margin="0,110,0,0" Click="buttonAHE_Click"></Button>
         <Button x:Name="buttonCLHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="CLHE" Margin="0,165,0,0" Click="buttonCLHE_Click"></Button>
         <Button x:Name="buttonCLAHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="CLAHE" Margin="0,220,0,0" Click="buttonCLAHE_Click"></Button>
+
+        <!--Parameters-->
         <Label Content="Window Size" HorizontalAlignment="Right" Margin="0,274,0,0" VerticalAlignment="Top" Width="80"/>
         <TextBox x:Name="textboxAHEWindowSize" HorizontalAlignment="Right" Height="24" Margin="0,297,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="64"/>
-        <Label x:Name="labelTimeTaken" Content="" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom"/>
         <Label Content="Contrast Limit" HorizontalAlignment="Right" Margin="0,318,0,0" VerticalAlignment="Top" Width="80"/>
         <TextBox x:Name="textboxClipLimit" HorizontalAlignment="Right" Height="24" Margin="0,341,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" Text="5"/>
+
+        <!--Output-->
+        <Label x:Name="labelTimeTaken" Content="" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

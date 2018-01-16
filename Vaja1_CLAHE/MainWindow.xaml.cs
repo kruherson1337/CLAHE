@@ -45,8 +45,8 @@ namespace Vaja1_CLAHE
                 MyImage myImage = new MyImage(image);
 
                 // Calculate each channel separated
-                Bitmap[] histograms = new Bitmap[myImage.NumCh];
-                Bitmap[] comulativeFrequencies = new Bitmap[myImage.NumCh];
+                double[][] histograms = new double[myImage.NumCh][];
+                double[][] comulativeFrequencies = new double[myImage.NumCh][];
                 Bitmap[] channelImages = new Bitmap[myImage.NumCh];
 
                 int windowSize = int.Parse(textboxAHEWindowSize.Text);
@@ -59,19 +59,29 @@ namespace Vaja1_CLAHE
                     ImageProcessing.processImage(ref bitplane, algorithm, windowSize, clipLimit);
 
                     // Calculate Histogram
-                    double[] histogram = ImageProcessing.calculateHistogram(bitplane);
+                    histograms[ch] = ImageProcessing.calculateHistogram(bitplane);
 
-                    // Get images
+                    // Calculate Comulative Histogram
+                    comulativeFrequencies[ch] = ImageProcessing.calculateComulativeFrequency(histograms[ch]);
+
+                    // Get image by channels
                     channelImages[ch] = ImageRendering.getChannelImage(bitplane, (int)ch, myImage.NumCh);
-                    histograms[ch] = ImageRendering.drawHistogram(histogram);
-                    comulativeFrequencies[ch] = ImageRendering.drawComulativeFrequency(ImageProcessing.calculateComulativeFrequency(histogram));
                 });
 
                 // Draw histogram and image for each channel
-                DrawOnScreen(myImage.NumCh, histograms, comulativeFrequencies, channelImages);
+                DrawOnScreen(myImage.NumCh, channelImages);
 
                 // Draw image on screen
                 imageOriginal.Source = Utils.getSource(myImage.GetBitmap());
+                
+                // Draw graphs
+                histogramR.PlotBars(histograms[2]);
+                histogramG.PlotBars(histograms[1]);
+                histogramB.PlotBars(histograms[0]);
+
+                comulativeHistogramR.PlotY(comulativeFrequencies[2]);
+                comulativeHistogramG.PlotY(comulativeFrequencies[1]);
+                comulativeHistogramB.PlotY(comulativeFrequencies[0]);
             }
 
             watch.Stop();
@@ -83,22 +93,14 @@ namespace Vaja1_CLAHE
         /// <summary>
         /// Draw histogram, comulative frequencies and channel images on screen
         /// </summary>
-        private void DrawOnScreen(int numCh, Bitmap[] histograms, Bitmap[] comulativeFrequencies, Bitmap[] channelImages)
+        private void DrawOnScreen(int numCh, Bitmap[] channelImages)
         {
             channelStack.Children.Clear();
-            histogramStack.Children.Clear();
-            stackComulativeFrequency.Children.Clear();
 
             for (int ch = 0; ch < numCh; ch++)
             {
-                histogramStack.Children.Add(Utils.GetImageView(histograms[ch], histogramStack.Width / 3, histogramStack.Height));
-                histograms[ch].Dispose();
-
                 channelStack.Children.Add(Utils.GetImageView(channelImages[ch], channelStack.Width / 3, channelStack.Height));
                 channelImages[ch].Dispose();
-
-                stackComulativeFrequency.Children.Add(Utils.GetImageView(comulativeFrequencies[ch], stackComulativeFrequency.Width / 3, stackComulativeFrequency.Height));
-                comulativeFrequencies[ch].Dispose();
             }
         }
 
