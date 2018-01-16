@@ -97,7 +97,7 @@ namespace Vaja1_CLAHE
         {
             channelStack.Children.Clear();
 
-            for (int ch = 0; ch < numCh; ch++)
+            for (int ch = numCh - 1; ch >= 0; ch--)
             {
                 channelStack.Children.Add(Utils.GetImageView(channelImages[ch], channelStack.Width / 3, channelStack.Height));
                 channelImages[ch].Dispose();
