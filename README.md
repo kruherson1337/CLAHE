@@ -5,13 +5,14 @@ Contrast Limited Adaptive Histogram Equalization C# .NET Framework - 2018
 Help
 -----
 
-More on algorithm find here https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE
+More on algorithm find [CLAHE Article](https://en.wikipedia.org/wiki/Adaptive_histogram_equalization#Contrast_Limited_AHE)
 
 Requirements
 -----
   - Target framework: .NET Framework 4.6.1
   - C# WPF App
   - Visual Studio 2017
+  - NuGet: InteractiveDataDisplay.WPF (Graphs)
 
 Program supports features
 -----
@@ -34,11 +35,11 @@ Original
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_original.jpg?raw=true" alt="Original"/>
 Histogram Equalization
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_HE.jpg?raw=true" alt="HE"/>
-Contrast Limited Histogram Equalization - Contrast Limit = 5
+Contrast Limited Histogram Equalization - Contrast Limit = 10
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLHE.jpg?raw=true" alt="CLHE"/>
-Adaptive Histogram Equalization - Window Size = 200, Contrast Limit = 5
+Adaptive Histogram Equalization - Window Size = 220
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_AHE.jpg?raw=true" alt="AHE"/>
-Contrast Limited Adaptive Histogram Equalization - Window Size = 200, Contrast Limit = 5
+Contrast Limited Adaptive Histogram Equalization - Window Size = 220, Contrast Limit = 10
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLAHE.jpg?raw=true" alt="CLAHE"/>
 
 References
