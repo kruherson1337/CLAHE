@@ -35,11 +35,11 @@ Original
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/ORG.JPG?raw=true" alt="Original"/>
 Histogram Equalization
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/HE.JPG?raw=true" alt="HE"/>
-Contrast Limited Histogram Equalization - Contrast Limit = 10
+Contrast Limited Histogram Equalization - Contrast Limit = 5
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/CLHE.JPG?raw=true" alt="CLHE"/>
-Adaptive Histogram Equalization - Window Size = 220
+Adaptive Histogram Equalization - Window Size = 200
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/AHE.JPG?raw=true" alt="AHE"/>
-Contrast Limited Adaptive Histogram Equalization - Window Size = 220, Contrast Limit = 10
+Contrast Limited Adaptive Histogram Equalization - Window Size = 200, Contrast Limit = 5
 <img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/CLAHE.JPG?raw=true" alt="CLAHE"/>
 
 References
