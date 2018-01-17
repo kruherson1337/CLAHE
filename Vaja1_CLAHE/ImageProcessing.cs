@@ -103,13 +103,13 @@ namespace Vaja1_CLAHE
                 for (x = 0; x < bitplane.Width; ++x)
                     bitplane.SetPixel(x, y, newBitplane.GetPixel(x, y));
         }
-
+        
         /// <summary>
-        /// Contrast Limited implementation
+        /// Contrast Limited Histogram Equalization implementation
         /// </summary>
-        /// <param name="bitplane">bitplane of current image</param>
-        /// <param name="contrastLimit">contrast limit</param>
-        private static void CL(ref MyBitplane bitplane, double contrastLimit)
+        /// <param name="bitplane"></param>
+        /// <param name="contrastLimit"></param>
+        private static void CLHE(ref MyBitplane bitplane, double contrastLimit)
         {
             double cl = (contrastLimit * (bitplane.Width * bitplane.Height)) / 256;
             double top = cl;
@@ -124,9 +124,9 @@ namespace Vaja1_CLAHE
             {
                 double middle = (top + bottom) / 2;
                 SUM = 0;
-                for (i = 0; i < 256; i++)
-                    if (histogram[i] > middle)
-                        SUM += histogram[i] - middle;
+                foreach (double value in histogram)
+                    if (value > middle)
+                        SUM += value - middle;
                 if (SUM > (cl - middle) * 256)
                     top = middle;
                 else
@@ -157,18 +157,6 @@ namespace Vaja1_CLAHE
             for (int y = 0; y < bitplane.Height; ++y)
                 for (x = 0; x < bitplane.Width; ++x)
                     bitplane.SetPixel(x, y, (byte)finalFreq[bitplane.GetPixel(x, y)]);
-
-        }
-
-        /// <summary>
-        /// Contrast Limited Histogram Equalization implementation
-        /// </summary>
-        /// <param name="bitplane"></param>
-        /// <param name="contrastLimit"></param>
-        private static void CLHE(ref MyBitplane bitplane, double contrastLimit)
-        {
-            CL(ref bitplane, contrastLimit);
-            HE(ref bitplane);
         }
 
         /// <summary>
@@ -191,13 +179,10 @@ namespace Vaja1_CLAHE
                 {
                     // Create window
                     CreateWindow(ref bitplane, windowSize, ref window, y, x);
+
+                    // Contrast Limit Histogram equalization on window
+                    CLHE(ref window, contrastLimit);
                     
-                    // Contrast Limit on window
-                    CL(ref window, contrastLimit);
-
-                    // Histogram equalization on window
-                    HE(ref window);
-
                     // Replace pixel from windowHE
                     newBitplane.SetPixel(x, y, window.GetPixel(windowSize / 2, windowSize / 2));
                 }
