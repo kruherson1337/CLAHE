@@ -10,7 +10,7 @@
     <Grid>
 
         <!--Processed image-->
-        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown" Stretch="Fill"/>
+        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
 
         <!--Processed image by channels-->
         <StackPanel Orientation="Horizontal" x:Name="channelStack" HorizontalAlignment="Left" Height="256" Margin="768,0,0,0" VerticalAlignment="Top" Width="768"/>
