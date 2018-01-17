@@ -32,15 +32,15 @@ How to use
 Examples
 -----
 Original
-<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_original.jpg?raw=true" alt="Original"/>
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/ORG.jpg?raw=true" alt="Original"/>
 Histogram Equalization
-<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_HE.jpg?raw=true" alt="HE"/>
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/HE.jpg?raw=true" alt="HE"/>
 Contrast Limited Histogram Equalization - Contrast Limit = 10
-<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLHE.jpg?raw=true" alt="CLHE"/>
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/CLHE.jpg?raw=true" alt="CLHE"/>
 Adaptive Histogram Equalization - Window Size = 220
-<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_AHE.jpg?raw=true" alt="AHE"/>
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/AHE.jpg?raw=true" alt="AHE"/>
 Contrast Limited Adaptive Histogram Equalization - Window Size = 220, Contrast Limit = 10
-<img src="https://github.com/kruherson1337/CLAHE/blob/master/example_CLAHE.jpg?raw=true" alt="CLAHE"/>
+<img src="https://github.com/kruherson1337/CLAHE/blob/master/examples/Pic6/CLAHE.jpg?raw=true" alt="CLAHE"/>
 
 References
 -----
