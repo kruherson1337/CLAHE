@@ -33,7 +33,7 @@ namespace Vaja1_CLAHE
         /// <returns>bitmapSource</returns>
         public static BitmapSource getSource(Bitmap bmp)
         {
-            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+            BitmapSource bmpSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 bmp.GetHbitmap(),
                 IntPtr.Zero,
                 Int32Rect.Empty,
@@ -41,6 +41,8 @@ namespace Vaja1_CLAHE
                     bmp.Width,
                     bmp.Height
                     ));
+            bmp.Dispose();
+            return bmpSource;
         }
 
         /// <summary>
@@ -54,9 +56,9 @@ namespace Vaja1_CLAHE
         {
             return new System.Windows.Controls.Image
             {
-                Source = getSource(bmp),
                 Width = width,
                 Height = height,
+                Source = getSource(bmp),
                 Stretch = Stretch.Fill
             };
         }

@@ -81,6 +81,7 @@
     <Compile Include="Algorithm.cs" />
     <Compile Include="ImageProcessing.cs" />
     <Compile Include="ImageRendering.cs" />
+    <Compile Include="Parameters.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

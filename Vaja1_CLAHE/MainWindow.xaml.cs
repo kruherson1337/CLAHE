@@ -5,75 +5,111 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Drawing.Imaging;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Vaja1_CLAHE
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IDisposable
     {
+        private readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
+        private Stopwatch watch;
+
         private string originalFilename;
+
+        private MyImage myImage;
+        private double[][] histograms;
+        private double[][] comulativeFrequencies;
+        private Bitmap[] channelImages;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            // Load default image
-            string defaultImagePath = System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\..\\..\\Resources\\Pic3.jpg";
-            processImage(defaultImagePath, Algorithm.LOAD_IMAGE);
+            backgroundWorker.DoWork += backgroundWorker_DoWork; 
+            backgroundWorker.RunWorkerCompleted += backgroundWorker_RunWorkerCompleted;
         }
 
-        private void processImage(string filename, Algorithm algorithm)
+        public void Dispose()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            labelTimeTaken.Content = "";
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            // save filename 
-            originalFilename = filename;
-
-            // Load image
-            using (Bitmap image = new Bitmap(filename))
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                Console.WriteLine("Filename: " + filename);
-                Console.WriteLine("Width: " + image.Width);
-                labelTimeTaken.Content += "Width: " + image.Width;
-                Console.WriteLine("Height: " + image.Height);
-                labelTimeTaken.Content += " Height: " + image.Height;
+                // get rid of managed resources
+                backgroundWorker.Dispose();
+            }
+            // get rid of unmanaged resources
+        }
 
-                // Convert to MyImage
-                MyImage myImage = new MyImage(image);
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                Parameters parameters = (Parameters)e.Argument;
+                watch = Stopwatch.StartNew();
 
-                // Calculate each channel separated
-                double[][] histograms = new double[myImage.NumCh][];
-                double[][] comulativeFrequencies = new double[myImage.NumCh][];
-                Bitmap[] channelImages = new Bitmap[myImage.NumCh];
-
-                int windowSize = int.Parse(textboxAHEWindowSize.Text);
-                double clipLimit = Double.Parse(textboxClipLimit.Text);
-
-                // Do paralel image process on each channel 
-                Parallel.ForEach(myImage.Bitplane, (bitplane, state, ch) =>
+                // Load image
+                using (Bitmap image = new Bitmap(parameters.filename))
                 {
-                    // Process current channel
-                    ImageProcessing.processImage(ref bitplane, algorithm, windowSize, clipLimit);
+                    // Convert to MyImage
+                    myImage = new MyImage(image);
+                    histograms = new double[myImage.NumCh][];
+                    comulativeFrequencies = new double[myImage.NumCh][];
+                    channelImages = new Bitmap[myImage.NumCh];
 
-                    // Calculate Histogram
-                    histograms[ch] = ImageProcessing.calculateHistogram(bitplane);
+                    // Do paralel image process on each channel 
+                    Parallel.ForEach(myImage.Bitplane, (bitplane, state, ch) =>
+                    {
+                        // Process current channel
+                        ImageProcessing.processImage(ref bitplane, parameters.algorithm, parameters.windowSize, parameters.contrastLimit);
 
-                    // Calculate Comulative Histogram
-                    comulativeFrequencies[ch] = ImageProcessing.calculateComulativeFrequency(histograms[ch]);
+                        // Calculate Histogram
+                        histograms[ch] = ImageProcessing.calculateHistogram(bitplane);
 
-                    // Get image by channels
-                    channelImages[ch] = ImageRendering.getChannelImage(bitplane, (int)ch, myImage.NumCh);
-                });
+                        // Calculate Comulative Histogram
+                        comulativeFrequencies[ch] = ImageProcessing.calculateComulativeFrequency(histograms[ch]);
 
+                        // Get image by channels
+                        channelImages[ch] = ImageRendering.getChannelImage(bitplane, (int)ch, myImage.NumCh);
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            watch.Stop();
+            string timeTaken = String.Format("Width: {0} Height: {1} Time taken: {2} ms", myImage.Width, myImage.Height, watch.ElapsedMilliseconds.ToString());
+            Console.WriteLine(timeTaken);
+            labelTimeTaken.Content = timeTaken;
+
+            if (e.Cancelled)
+            {
+            }
+            else if (e.Error != null)
+            {
+                Console.WriteLine(e.Error);
+            }
+            else
+            {
                 // Draw histogram and image for each channel
                 DrawOnScreen(myImage.NumCh, channelImages);
 
                 // Draw image on screen
                 imageOriginal.Source = Utils.getSource(myImage.GetBitmap());
-                
+
                 // Draw graphs
                 histogramR.PlotBars(histograms[2]);
                 histogramG.PlotBars(histograms[1]);
@@ -83,13 +119,8 @@ namespace Vaja1_CLAHE
                 comulativeHistogramG.PlotY(comulativeFrequencies[1]);
                 comulativeHistogramB.PlotY(comulativeFrequencies[0]);
             }
-
-            watch.Stop();
-            string timeTaken = String.Format(" {0} {1} ms", algorithm.ToString(), watch.ElapsedMilliseconds.ToString());
-            Console.WriteLine(timeTaken);
-            labelTimeTaken.Content += timeTaken;
         }
-        
+
         /// <summary>
         /// Draw histogram, comulative frequencies and channel images on screen
         /// </summary>
@@ -131,7 +162,8 @@ namespace Vaja1_CLAHE
             };
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                processImage(dialog.FileName, Algorithm.LOAD_IMAGE);
+                originalFilename = dialog.FileName;
+                backgroundWorker.RunWorkerAsync(new Parameters(originalFilename, Algorithm.LOAD_IMAGE, Double.Parse(textboxClipLimit.Text), Int32.Parse(textboxAHEWindowSize.Text)));
             }
         }
 
@@ -144,27 +176,27 @@ namespace Vaja1_CLAHE
 
         private void buttonReset_Click(object sender, RoutedEventArgs e)
         {
-            processImage(originalFilename, Algorithm.LOAD_IMAGE);
+            loadImage();
         }
 
         private void buttonHE_Click(object sender, RoutedEventArgs e)
         {
-            processImage(originalFilename, Algorithm.HE);
+            backgroundWorker.RunWorkerAsync(new Parameters(originalFilename, Algorithm.HE, Double.Parse(textboxClipLimit.Text), Int32.Parse(textboxAHEWindowSize.Text)));
         }
 
         private void buttonAHE_Click(object sender, RoutedEventArgs e)
         {
-            processImage(originalFilename, Algorithm.AHE);
+            backgroundWorker.RunWorkerAsync(new Parameters(originalFilename, Algorithm.AHE, Double.Parse(textboxClipLimit.Text), Int32.Parse(textboxAHEWindowSize.Text)));
         }
 
         private void buttonCLHE_Click(object sender, RoutedEventArgs e)
         {
-            processImage(originalFilename, Algorithm.CLHE);
+            backgroundWorker.RunWorkerAsync(new Parameters(originalFilename, Algorithm.CLHE, Double.Parse(textboxClipLimit.Text), Int32.Parse(textboxAHEWindowSize.Text)));
         }
 
         private void buttonCLAHE_Click(object sender, RoutedEventArgs e)
         {
-            processImage(originalFilename, Algorithm.CLAHE);
+            backgroundWorker.RunWorkerAsync(new Parameters(originalFilename, Algorithm.CLAHE, Double.Parse(textboxClipLimit.Text), Int32.Parse(textboxAHEWindowSize.Text)));
         }
 
         private void imageOriginal_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

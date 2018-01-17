@@ -10,7 +10,7 @@
     <Grid>
 
         <!--Processed image-->
-        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown"/>
+        <Image x:Name="imageOriginal" HorizontalAlignment="Left" Height="768" VerticalAlignment="Top" Width="768" MouseLeftButtonDown="Image_MouseLeftButtonDown" MouseRightButtonDown="imageOriginal_MouseRightButtonDown" Stretch="Fill"/>
 
         <!--Processed image by channels-->
         <StackPanel Orientation="Horizontal" x:Name="channelStack" HorizontalAlignment="Left" Height="256" Margin="768,0,0,0" VerticalAlignment="Top" Width="768"/>
@@ -39,7 +39,7 @@
         </d3:Chart>
 
         <!--Buttons-->
-        <Button x:Name="buttonReset" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="80" Height="50" Content="Reset" Margin="0,0,0,0" Click="buttonReset_Click"></Button>
+        <Button x:Name="buttonReset" HorizontalAlignment="Right" VerticalAlignment="Top"  Width="80" Height="50" Content="Load" Margin="0,0,0,0" Click="buttonReset_Click"></Button>
         <Button x:Name="buttonHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="HE" Margin="0,55,0,0" Click="buttonHE_Click"></Button>
         <Button x:Name="buttonAHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="AHE" Margin="0,110,0,0" Click="buttonAHE_Click"></Button>
         <Button x:Name="buttonCLHE" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="50" Content="CLHE" Margin="0,165,0,0" Click="buttonCLHE_Click"></Button>
